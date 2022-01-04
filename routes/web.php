@@ -14,7 +14,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return response()->json([
-        "ali" => "hammam"
-    ]);
+    /*$branch = \App\Models\Branch::find(1);
+    $state= $branch->state()->get();
+    return response()->json($state);*/
+    //return response()->json(\App\Models\Agency::find(1)->with('branches')->get());
 });
+
+

@@ -3,9 +3,8 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use \Illuminate\Support\Facades\DB;
 
-class CreateUsersTable extends Migration
+class CreateBranchesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,18 +13,15 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('branches', function (Blueprint $table) {
             $table->id();
-            $table->string('fname');
-            $table->string('mname');
-            $table->string('lname');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->string('ssn')->unique()->nullable(false);
-            $table->string('driver_licence')->unique()->nullable(false);
+            $table->bigInteger('agency_id')->unsigned()->index()->nullable();
             $table->bigInteger('state_id')->unsigned()->index()->nullable();
+            $table->string('name' , 100)->nullable(false);
+            $table->string('phone', 30);
+            $table->string('tax_record', 50);
+            $table->foreign('agency_id')->references('id')->on('agencies')->onDelete('cascade');
             $table->foreign('state_id')->references('id')->on('states')->onDelete('cascade');
-            $table->string('image');
             $table->timestamps();
         });
     }
@@ -37,6 +33,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('branches');
     }
 }

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use WisdomDiala\Countrypkg\Models\State;
 
 class User extends Authenticatable
 {
@@ -21,4 +22,16 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
     ];
+
+    public function phoneNumber(){
+        return $this->hasOne(PhoneNumber::class);
+    }
+
+    public function rentals(){
+        return $this->hasMany(Rental::class);
+    }
+
+    public function state(){
+        return $this->belongsTo(State::class);
+    }
 }

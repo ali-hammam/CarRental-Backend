@@ -1,0 +1,24 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Car extends Model
+{
+    use HasFactory;
+    protected $hidden = ['created_at', 'updated_at', 'car_type_id', 'branch_id'];
+
+    public function rentals(){
+        return $this->hasMany(Rental::class);
+    }
+
+    public function carType(){
+        return $this->belongsTo(CarType::class);
+    }
+
+    public function branch(){
+        return $this->belongsTo(Branch::class);
+    }
+}
