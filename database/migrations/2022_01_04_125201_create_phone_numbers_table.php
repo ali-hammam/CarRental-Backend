@@ -17,8 +17,8 @@ class CreatePhoneNumbersTable extends Migration
             $table->id();
             $table->bigInteger('user_id')->unsigned()->index()->nullable();
             $table->string('cell_phone' , 30)->nullable(false);
-            $table->string('secondary_phone', 30);
-            $table->string('landline_phone', 30);
+            $table->string('secondary_phone', 30)->nullable();
+            $table->string('landline_phone', 30)->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

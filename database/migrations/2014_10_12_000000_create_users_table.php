@@ -22,10 +22,11 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('ssn')->unique()->nullable(false);
-            $table->string('driver_licence')->unique()->nullable(false);
+            $table->string('driver_licence')->nullable();
             $table->bigInteger('state_id')->unsigned()->index()->nullable();
             $table->foreign('state_id')->references('id')->on('states')->onDelete('cascade');
-            $table->string('image');
+            $table->string('image')->nullable();
+            $table->string('type')->nullable(false);
             $table->timestamps();
         });
     }

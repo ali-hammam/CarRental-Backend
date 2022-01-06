@@ -14,9 +14,16 @@ class User extends Authenticatable
     use HasFactory, Notifiable, HasApiTokens;
 
     protected $fillable = [
-        'name',
+        'fname',
+        'mname',
+        'lname',
+        'ssn',
+        'image',
         'email',
+        'driver_licence',
         'password',
+        'state_id',
+        'type'
     ];
 
     protected $hidden = [
@@ -33,5 +40,9 @@ class User extends Authenticatable
 
     public function state(){
         return $this->belongsTo(State::class);
+    }
+
+    public function agency(){
+        return $this->hasOne(Agency::class);
     }
 }

@@ -18,7 +18,7 @@ class CreateBranchesTable extends Migration
             $table->bigInteger('agency_id')->unsigned()->index()->nullable();
             $table->bigInteger('state_id')->unsigned()->index()->nullable();
             $table->string('name' , 100)->nullable(false);
-            $table->string('phone', 30);
+            $table->string('phone', 30)->nullable();
             $table->string('tax_record', 50);
             $table->foreign('agency_id')->references('id')->on('agencies')->onDelete('cascade');
             $table->foreign('state_id')->references('id')->on('states')->onDelete('cascade');

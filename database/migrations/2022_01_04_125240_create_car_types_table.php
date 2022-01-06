@@ -19,9 +19,9 @@ class CreateCarTypesTable extends Migration
             $table->bigInteger('manufacturer_id')->unsigned()->index()->nullable();
             $table->foreign('manufacturer_id')->references('id')->on('manufacturers')->onDelete('cascade');
             $table->string('model')->nullable(false);
-            $table->string('type');
+            $table->string('type')->nullable(false);
             $table->integer('number_of_seats')->nullable(false);
-            $table->year('year');
+            $table->year('year')->nullable(false);
             $table->timestamps();
         });
         DB::statement('ALTER TABLE car_types ADD CHECK (`type` IN ("SEDAN", "COUPE", "SPORT", "HATCHBACK","MINIVAN"))');

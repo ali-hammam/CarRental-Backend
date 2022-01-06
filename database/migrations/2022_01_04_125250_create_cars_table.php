@@ -20,10 +20,10 @@ class CreateCarsTable extends Migration
             $table->bigInteger('branch_id')->unsigned()->index()->nullable();
             $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');
             $table->string('color')->nullable(false);
-            $table->boolean('active');
+            $table->boolean('is_active');
             $table->boolean('maintenance');
-            $table->float('hourly_price');
-            $table->float('tax_rate');
+            $table->float('hourly_price')->nullable(false);
+            $table->float('tax_rate')->nullable(false);
             $table->timestamps();
         });
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use http\Cookie;
 use Illuminate\Http\Request;
@@ -11,31 +12,47 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
+    public function userRegisterInfo(Request $request){
+        return [
+            'fname' => $request['fname'],
+            'mname' => $request['mname'],
+            'lname' => $request['lname'],
+            'email' => $request['email'],
+            'password' => Hash::make($request['password']),
+            'ssn' => $request['ssn'],
+            'driver_licence' => $request['driver_licence'],
+            //'image' => $request['image'],
+            'state_id' => 5
+        ];
+    }
+
     public function register(Request $request){
-        $user = User::create([
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'password' => Hash::make($request->input('password'))
-        ]);
+        $request['password'] = Hash::make($request['password']);
+        $user = User::create($request->all());
+        //$user = User::create(/*$this->userRegisterInfo($request)*/ $request->all());
 
         return response()->json([
             "status" => 200,
-            "user" => $user
+            "user" =>  $request->all()
         ]);
     }
 
     public function login(Request $request){
-        if(!Auth::attempt($request->only('email' , 'password'))){
+        //return$this->loginValidation($request);
+        if(!Auth::attempt($request->only('email' , 'password')) /*!$this->loginValidation($request)*/){
             return response()->json([
-                'message' => 'invalid credentials'
+                'message' => 'invalid credentials',
+                'data' => $request->all()
             ], Response::HTTP_UNAUTHORIZED);
         }
 
+        //$user = User::where('email', $request['email'])->first();
         $user = Auth::user();
         $token = $user->createToken('token')->plainTextToken;
         $cookie = cookie('jwt' , $token , 60*24);
-        return \response()->json([
-            'message' => $token
+        return response()->json([
+            'message' => $token,
+            'user' => $user
         ])->withCookie($cookie);
     }
 
@@ -47,6 +64,18 @@ class AuthController extends Controller
     }
 
     public function user(){
-        return "Authenticated User";
+        return response()->json([
+            'user' => Auth::user()
+        ]);
+        //return Auth::user();
+    }
+
+    public function loginValidation(Request $request){
+        $user = User::where('email', $request['email'])->first();
+        if($user) {
+            $user->makeVisible(['password']);
+            return $user['password'] === $request['password'];
+        }
+        return 0;
     }
 }
