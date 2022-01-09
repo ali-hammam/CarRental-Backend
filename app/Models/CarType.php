@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class CarType extends Model
 {
     use HasFactory;
+    protected $fillable = ['manufacturer_id' , 'model', 'type', 'number_of_seats', 'year'];
     protected $hidden = ['created_at', 'updated_at', 'manufacturer_id'];
 
     public function manufacturer(){

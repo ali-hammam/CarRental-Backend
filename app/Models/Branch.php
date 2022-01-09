@@ -11,6 +11,7 @@ class Branch extends Model
     use HasFactory;
     protected  $primaryKey = 'id';
 
+    protected $fillable = ['agency_id', 'state_id', 'name', 'phone', 'tax_record'];
     protected $hidden = ['created_at', 'updated_at', 'agency_id', 'state_id'];
 
     public function cars(){

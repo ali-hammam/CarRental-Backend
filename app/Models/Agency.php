@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Agency extends Model
 {
     use HasFactory;
+    protected $fillable = ['name', 'user_id'];
     protected $hidden = ['created_at', 'updated_at'];
 
     public function branches(){
@@ -16,5 +17,9 @@ class Agency extends Model
 
     public function user(){
         return $this->belongsTo(User::class);
+    }
+
+    public function manufacturers(){
+        return $this->hasMany(Manufacturer::class);
     }
 }

@@ -16,6 +16,8 @@ class CreateManufacturersTable extends Migration
         Schema::create('manufacturers', function (Blueprint $table) {
             $table->id();
             $table->string('name', 50)->nullable(false);
+            $table->bigInteger('agency_id')->unsigned()->index()->nullable();
+            $table->foreign('agency_id')->references('id')->on('agencies')->onDelete('cascade');
             $table->timestamps();
         });
     }
