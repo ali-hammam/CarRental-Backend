@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -34,6 +35,11 @@ Route::middleware('auth:sanctum')->group(function (){
     Route::post('addCar' , [\App\Http\Controllers\AgencyController::class, 'addCar']);
     Route::post('carByBranch' , [\App\Http\Controllers\AgencyController::class, 'getCarByBranch']);
     Route::put('editCar' , [\App\Http\Controllers\AgencyController::class, 'updateCarStatus']);
+    Route::get('cars' , [UserController::class, 'getAllCars']);
+    Route::post('carsByModel' , [UserController::class, 'getAllCarsByModel']);
+    Route::post('carsByManufacturer' , [UserController::class, 'getAllCarsByManufacturer']);
+    Route::post('carsByType' , [UserController::class, 'getAllCarsByType']);
+    Route::post('rent' , [\App\Http\Controllers\RentController::class, 'rent']);
 
 
 });

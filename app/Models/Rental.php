@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Rental extends Model
 {
     use HasFactory;
+    protected $fillable = ['user_id', 'car_id', 'pick_date', 'from','to'];
     protected $hidden = ['created_at', 'updated_at', 'car_id', 'user_id'];
 
     public function rental_payments(){

@@ -9,7 +9,7 @@ class Agency extends Model
 {
     use HasFactory;
     protected $fillable = ['name', 'user_id'];
-    protected $hidden = ['created_at', 'updated_at'];
+    protected $hidden = ['user_id','created_at', 'updated_at'];
 
     public function branches(){
         return $this->hasMany(Branch::class);

@@ -141,7 +141,7 @@ class AgencyController extends Controller
         $car = Car::where('id' , $request['car_id'])->update([
             $request['field'] => $request[$request['field']]
         ]);
-        
+
         return response()->json([
             'data' => $request->all()
         ]);
