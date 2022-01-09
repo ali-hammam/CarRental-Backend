@@ -31,6 +31,9 @@ Route::middleware('auth:sanctum')->group(function (){
     Route::post('addManufacture' , [\App\Http\Controllers\AgencyController::class, 'addManufacturer']);
     Route::post('addCarType' , [\App\Http\Controllers\AgencyController::class, 'addCarType']);
     Route::post('carTypes' , [\App\Http\Controllers\AgencyController::class, 'getCarTypes']);
+    Route::post('addCar' , [\App\Http\Controllers\AgencyController::class, 'addCar']);
+    Route::post('carByBranch' , [\App\Http\Controllers\AgencyController::class, 'getCarByBranch']);
+    Route::put('editCar' , [\App\Http\Controllers\AgencyController::class, 'updateCarStatus']);
 
 
 });

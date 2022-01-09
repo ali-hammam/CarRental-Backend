@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Agency;
 use App\Models\Branch;
+use App\Models\Car;
 use App\Models\CarType;
 use App\Models\Manufacturer;
 use App\Models\User;
@@ -14,6 +15,13 @@ class AgencyController extends Controller
 {
     public function getAgency(){
         $user = Auth::user();
+        $agency = User::find($user->getAuthIdentifier())->agency()->get();
+        if($agency->isEmpty()){
+            return response()->json([
+                'agencies' => $agency
+            ]);
+        }
+
         return response()->json([
             'agencies' => User::find($user->getAuthIdentifier())->agency()->get()[0]
         ]);
@@ -105,7 +113,6 @@ class AgencyController extends Controller
                     'model' => $e['model']
                 ];
             });
-            //$elemnt['carTypes']->pluck('model','id');
         });
 
         return response()->json([
@@ -113,4 +120,31 @@ class AgencyController extends Controller
             'data' => $carTypes[0],
         ]);
     }
+
+    public function addCar(Request $request){
+        $carType = Car::create($request->all());
+        return response()->json([
+            'status'=>200,
+            'data' => $carType
+        ]);
+    }
+
+    public function getCarByBranch(Request $request){
+        $cars = Branch::find($request['branch_id'])->cars()->with('carType')->get();
+        $cars->makeHidden(['color','tax_rate','is_active','hourly_price','maintenance']);
+        return response()->json([
+           'cars' => $cars
+        ]);
+    }
+
+    public function updateCarStatus(Request $request){
+        $car = Car::where('id' , $request['car_id'])->update([
+            $request['field'] => $request[$request['field']]
+        ]);
+        
+        return response()->json([
+            'data' => $request->all()
+        ]);
+    }
+
 }
