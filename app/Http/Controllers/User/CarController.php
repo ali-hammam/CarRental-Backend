@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
+use App\Http\Controllers\Controller;
 use App\Models\Agency;
 use App\Models\Car;
 use Illuminate\Http\Request;
 
-class UserController extends Controller
+class CarController extends Controller
 {
     public function getAllCars(){
         $cars = Agency::with('user')->with('manufacturers', function($q){
@@ -57,41 +58,4 @@ class UserController extends Controller
             'cars' => $cars
         ];
     }
-
-    /*public function getAllCarsByNumberOfSeats(){
-        $cars = Agency::with('user')->with('manufacturers', function($q){
-            $q->with('carTypes',function ($query){
-                $query->with('cars');
-            });
-        })->get();
-
-        return [
-            'cars' => $cars
-        ];
-    }
-
-    public function getAllCarsByYear(){
-        $cars = Agency::with('user')->with('manufacturers', function($q){
-            $q->with('carTypes',function ($query){
-                $query->with('cars');
-            });
-        })->get();
-
-        return [
-            'cars' => $cars
-        ];
-    }
-
-    public function getAllCarsByColor(){
-        $cars = Agency::with('user')->with('manufacturers', function($q){
-            $q->with('carTypes',function ($query){
-                $query->with('cars');
-            });
-        })->get();
-
-        return [
-            'cars' => $cars
-        ];
-    }*/
-
 }

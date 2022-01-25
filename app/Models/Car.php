@@ -17,7 +17,7 @@ class Car extends Model
         'hourly_price',
         'tax_rate'
     ];
-    protected $hidden = ['created_at', 'updated_at', 'car_type_id', 'branch_id'];
+    protected $hidden = ['created_at', 'updated_at', 'branch_id'];
 
     public function rentals(){
         return $this->hasMany(Rental::class);

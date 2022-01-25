@@ -1,11 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Owner;
 
+use App\Http\Controllers\Controller;
 use App\Models\Agency;
-use App\Models\Branch;
-use App\Models\Car;
-use App\Models\CarType;
 use App\Models\Manufacturer;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -40,7 +38,7 @@ class AgencyController extends Controller
         ]);
     }
 
-    public function getBranches(){
+    /*public function getBranches(){
         $user = Auth::user();
         $branches = Agency::where('user_id', $user->getAuthIdentifier())->with('branches')->get();
         return [
@@ -64,7 +62,7 @@ class AgencyController extends Controller
             'status'=>200,
             'data' => $branch
         ]);
-    }
+    }*/
 
     public function getManufacturers(Request $request){
         $manufacturers = Agency::find($request['agency_id'])->manufacturers()->get();
@@ -87,7 +85,7 @@ class AgencyController extends Controller
         ]);
     }
 
-    public function addCarType(Request $request){
+    /*public function addCarType(Request $request){
         $data = [
             'manufacturer_id' => $request['manufacturer_id'],
             'model' => $request['model'],
@@ -127,17 +125,17 @@ class AgencyController extends Controller
             'status'=>200,
             'data' => $carType
         ]);
-    }
+    }*/
 
-    public function getCarByBranch(Request $request){
+    /*public function getCarByBranch(Request $request){
         $cars = Branch::find($request['branch_id'])->cars()->with('carType')->get();
         $cars->makeHidden(['color','tax_rate','is_active','hourly_price','maintenance']);
         return response()->json([
            'cars' => $cars
         ]);
-    }
+    }*/
 
-    public function updateCarStatus(Request $request){
+    /*public function updateCarStatus(Request $request){
         $car = Car::where('id' , $request['car_id'])->update([
             $request['field'] => $request[$request['field']]
         ]);
@@ -145,6 +143,8 @@ class AgencyController extends Controller
         return response()->json([
             'data' => $request->all()
         ]);
-    }
+    }*/
+
+
 
 }

@@ -1,19 +1,13 @@
 <?php
 
-use App\Http\Controllers\UserController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\User\CarController as UserCarController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Owner\AgencyController;
+use App\Http\Controllers\Owner\BranchController;
+use App\Http\Controllers\Owner\CarController as OnwerCarController;
+use \App\Http\Controllers\User\RentController;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
 
 Route::post('register' , [\App\Http\Controllers\AuthController::class, 'register']);
 Route::post('login' , [\App\Http\Controllers\AuthController::class, 'login']);
@@ -22,25 +16,25 @@ Route::post('states' , [\App\Http\Controllers\CountryController::class, 'getStat
 
 
 Route::middleware('auth:sanctum')->group(function (){
-    Route::get('user' , [\App\Http\Controllers\AuthController::class, 'user']);
-    Route::post('logout' , [\App\Http\Controllers\AuthController::class, 'logout']);
-    Route::get('agency' , [\App\Http\Controllers\AgencyController::class, 'getAgency']);
-    Route::post('addAgency' , [\App\Http\Controllers\AgencyController::class, 'addAgency']);
-    Route::get('branches' , [\App\Http\Controllers\AgencyController::class, 'getBranches']);
-    Route::post('addBranch' , [\App\Http\Controllers\AgencyController::class, 'addBranch']);
-    Route::post('manufacturers' , [\App\Http\Controllers\AgencyController::class, 'getManufacturers']);
-    Route::post('addManufacture' , [\App\Http\Controllers\AgencyController::class, 'addManufacturer']);
-    Route::post('addCarType' , [\App\Http\Controllers\AgencyController::class, 'addCarType']);
-    Route::post('carTypes' , [\App\Http\Controllers\AgencyController::class, 'getCarTypes']);
-    Route::post('addCar' , [\App\Http\Controllers\AgencyController::class, 'addCar']);
-    Route::post('carByBranch' , [\App\Http\Controllers\AgencyController::class, 'getCarByBranch']);
-    Route::put('editCar' , [\App\Http\Controllers\AgencyController::class, 'updateCarStatus']);
-    Route::get('cars' , [UserController::class, 'getAllCars']);
-    Route::post('carsByModel' , [UserController::class, 'getAllCarsByModel']);
-    Route::post('carsByManufacturer' , [UserController::class, 'getAllCarsByManufacturer']);
-    Route::post('carsByType' , [UserController::class, 'getAllCarsByType']);
-    Route::post('rent' , [\App\Http\Controllers\RentController::class, 'rent']);
-
+    Route::get('user' , [AuthController::class, 'user']);
+    Route::post('logout' , [AuthController::class, 'logout']);
+    Route::get('agency' , [AgencyController::class, 'getAgency']);
+    Route::post('addAgency' , [AgencyController::class, 'addAgency']);
+    Route::post('manufacturers' , [AgencyController::class, 'getManufacturers']);
+    Route::post('addManufacture' , [AgencyController::class, 'addManufacturer']);
+    Route::get('branches' , [BranchController::class, 'getBranches']);
+    Route::post('addBranch' , [BranchController::class, 'addBranch']);
+    Route::post('carByBranch' , [BranchController::class, 'getCarByBranch']);
+    Route::post('addCarType' , [OnwerCarController::class, 'addCarType']);
+    Route::post('carTypes' , [OnwerCarController::class, 'getCarTypes']);
+    Route::post('addCar' , [OnwerCarController::class, 'addCar']);
+    Route::put('editCar' , [OnwerCarController::class, 'updateCarStatus']);
+    Route::get('cars' , [UserCarController::class, 'getAllCars']);
+    Route::post('carsByModel' , [UserCarController::class, 'getAllCarsByModel']);
+    Route::post('carsByManufacturer' , [UserCarController::class, 'getAllCarsByManufacturer']);
+    Route::post('carsByType' , [UserCarController::class, 'getAllCarsByType']);
+    Route::post('rent' , [RentController::class, 'rent']);
+    Route::post('reservedCars' , [RentController::class, 'reservedCars']);
 
 });
 
