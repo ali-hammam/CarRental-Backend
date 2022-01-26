@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use \App\Http\Controllers;
 use App\Models\User;
 use http\Cookie;
 use Illuminate\Http\Request;
@@ -12,41 +12,29 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function userRegisterInfo(Request $request){
-        return [
-            'fname' => $request['fname'],
-            'mname' => $request['mname'],
-            'lname' => $request['lname'],
-            'email' => $request['email'],
-            'password' => Hash::make($request['password']),
-            'ssn' => $request['ssn'],
-            'driver_licence' => $request['driver_licence'],
-            //'image' => $request['image'],
-            'state_id' => 5
-        ];
-    }
-
     public function register(Request $request){
         $request['password'] = Hash::make($request['password']);
-        $user = User::create($request->all());
-        //$user = User::create(/*$this->userRegisterInfo($request)*/ $request->all());
+        $imageName = $this->imageName($request['previewTitle']);
+        $data = $request->except(['previewImage', 'previewTitle']);
+        $data['image'] = $imageName;
+
+        $user = User::create($data);
+        $this->addImage($request['previewImage'], $request['previewTitle']);
 
         return response()->json([
             "status" => 200,
-            "user" =>  $request->all()
+            "user" =>  $data
         ]);
     }
 
     public function login(Request $request){
-        //return$this->loginValidation($request);
-        if(!Auth::attempt($request->only('email' , 'password')) /*!$this->loginValidation($request)*/){
+        if(!Auth::attempt($request->only('email' , 'password'))){
             return response()->json([
                 'message' => 'invalid credentials',
                 'data' => $request->all()
             ], Response::HTTP_UNAUTHORIZED);
         }
 
-        //$user = User::where('email', $request['email'])->first();
         $user = Auth::user();
         $token = $user->createToken('token')->plainTextToken;
         $cookie = cookie('jwt' , $token , 60*24);
@@ -67,7 +55,6 @@ class AuthController extends Controller
         return response()->json([
             'user' => Auth::user()
         ]);
-        //return Auth::user();
     }
 
     public function loginValidation(Request $request){
@@ -77,5 +64,15 @@ class AuthController extends Controller
             return $user['password'] === $request['password'];
         }
         return 0;
+    }
+
+    public function addImage(/*Request $request*/$previwImage, $previewTitle){
+        $base64_str = substr($previwImage, strpos($previwImage, ",")+1);
+        $image = base64_decode($base64_str );
+        file_put_contents(public_path('images/users/'.$this->imageName($previewTitle)),$image);
+    }
+
+    private function imageName($previewTitle){
+        return time().$previewTitle;
     }
 }

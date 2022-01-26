@@ -36,5 +36,6 @@ Route::middleware('auth:sanctum')->group(function (){
     Route::post('rent' , [RentController::class, 'rent']);
     Route::post('reservedCars' , [RentController::class, 'reservedCars']);
 
+    Route::post('addImage' , [AuthController::class, 'addImage']);
 });
 
